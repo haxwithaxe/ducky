@@ -117,7 +117,7 @@ void ApplePayload(void){
 
 void main(void)
 {
-   LED_OFF; // make sure LED is off
+   //LED_OFF; // make sure LED is off
 
    CPU_PRESCALE(0); // set for 16 MHz clock
 
@@ -126,11 +126,10 @@ void main(void)
    // this will wait forever.
    usb_init();
    while (!usb_configured()) /* wait */ ;
-
    // Wait an extra second for the PC's operating system to load drivers
    // and do whatever it does to actually be ready for input
-   blinkLEDAlt(5,200,200);
-   _delay_ms(10000);// just for debug. for prod set it back to _delay_ms(1000);
+   _delay_ms(1000);
+   while (keyboard_leds == 0) /* wait for payload signal */
 // DO STUFF ------------------------------------------------------------
    switch (keyboard_leds)
    {
@@ -146,8 +145,6 @@ void main(void)
          WindowsPayload();
          blinkLED(4);
          break;
-      case 0:
-         blinkLED(10);
       default: // none match
          blinkLEDAlt(keyboard_leds,2000,2000);
    }
