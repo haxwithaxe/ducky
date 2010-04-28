@@ -32,6 +32,26 @@
 #define LED_OFF		(PORTD |= (1<<6))
 #define CPU_PRESCALE(n)	(CLKPR = 0x80, CLKPR = (n))
 
+void blinkLEDLoop(int ms_on,int ms_off){
+   while (1)
+   {
+      LED_ON;
+      _delay_ms(ms_on);
+      LED_OFF;
+      _delay_ms(ms_off);
+   };
+};
+
+void blinkLED(int count,int ms_on=1000,int ms_off=1000){
+   while (i=0;i<count;i++)
+   {
+      LED_ON;
+      _delay_ms(ms_on);
+      LED_OFF;
+      _delay_ms(ms_off);
+   };
+};
+
 void LinuxCommandRun(char *SomeCommand){
    usb_keyboard_press(KEY_F2, KEY_ALT);
    _delay_ms(500);
@@ -80,16 +100,6 @@ void ApplePayload(void){
    // also waiting for Darren's USBDucky example code to see if he has gotten around doing this
 };
 
-void blinkLEDLoop(int ms_on,int ms_off){
-   while (1)
-   {
-      LED_ON;
-      _delay_ms(ms_on);
-      LED_OFF;
-      _delay_ms(ms_off);
-   };
-};
-
 void main(void)
 {
    LED_OFF; // make sure LED is off
@@ -104,26 +114,27 @@ void main(void)
 
    // Wait an extra second for the PC's operating system to load drivers
    // and do whatever it does to actually be ready for input
-   _delay_ms(1000);
+   blinkLED(5,200,200);
+   _delay_ms(10000);// just for debug. for prod set it back to _delay_ms(1000);
 // DO STUFF ------------------------------------------------------------
    switch (keyboard_leds)
    {
       case 1: // num lock
          LinuxPayload();
-         blinkLEDLoop(1000,1000);
+         blinkLED(1);
          break;
       case 2: // caps lock
          ApplePayload();
-         blinkLEDLoop(2000,1000);
+         blinkLED(2);
          break;
       case 4: // scroll lock
          WindowsPayload();
-         blinkLEDLoop(4000,1000);
+         blinkLED(4);
          break;
       default: // none match
-         blinkLEDLoop(1000,4000);
+         blinkLED(10,200,200);
    }
-   
+   _delay_ms(10000); // for debug only. ditch for prod
 // blink light when done -----------------------------------------------
    blinkLEDLoop(500,500);
 }
