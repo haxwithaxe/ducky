@@ -40,16 +40,31 @@ void blinkLEDLoop(int ms_on,int ms_off){
       LED_OFF;
       _delay_ms(ms_off);
    };
+   LED_OFF; // this should never happen
 };
 
-void blinkLED(int count,int ms_on=1000,int ms_off=1000){
-   while (i=0;i<count;i++)
+void blinkLED(int count){
+   int i;
+   for (i=0;i<count;i++)
+   {
+      LED_ON;
+      _delay_ms(1000);
+      LED_OFF;
+      _delay_ms(1000);
+   };
+   LED_OFF;
+};
+
+void blinkLEDAlt(int count,int ms_on,int ms_off){
+   int i;
+   for (i=0;i<count;i++)
    {
       LED_ON;
       _delay_ms(ms_on);
       LED_OFF;
       _delay_ms(ms_off);
    };
+   LED_OFF;
 };
 
 void LinuxCommandRun(char *SomeCommand){
@@ -114,7 +129,7 @@ void main(void)
 
    // Wait an extra second for the PC's operating system to load drivers
    // and do whatever it does to actually be ready for input
-   blinkLED(5,200,200);
+   blinkLEDAlt(5,200,200);
    _delay_ms(10000);// just for debug. for prod set it back to _delay_ms(1000);
 // DO STUFF ------------------------------------------------------------
    switch (keyboard_leds)
@@ -131,8 +146,10 @@ void main(void)
          WindowsPayload();
          blinkLED(4);
          break;
+      case 0:
+         blinkLED(10);
       default: // none match
-         blinkLED(10,200,200);
+         blinkLEDAlt(keyboard_leds,2000,2000);
    }
    _delay_ms(10000); // for debug only. ditch for prod
 // blink light when done -----------------------------------------------
