@@ -9,6 +9,7 @@ uint8_t usb_configured(void);		// is the USB port configured
 int8_t usb_keyboard_press(uint8_t key, uint8_t modifier);
 int8_t usb_keyboard_send(void);
 void usb_keyboard_send_string(const char *s);
+#define type(s)	usb_keyboard_send_string(PSTR(s))
 extern uint8_t keyboard_modifier_keys;
 extern uint8_t keyboard_keys[6];
 extern volatile uint8_t keyboard_leds;
