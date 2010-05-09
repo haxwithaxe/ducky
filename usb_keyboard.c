@@ -590,44 +590,64 @@ ISR(USB_COM_vect)
 }
 
 void usb_keyboard_send_single(char c) {
-	if (c > 'A' - 1 && c < 'Z') {
-		usb_keyboard_press(c - 'A' + 4, KEY_SHIFT);
-	}
-	else if (c > 'a' - 1 && c < 'z') {
-		usb_keyboard_press(c - 'a' + 4, 0);
-	}
-	else if (c == '	') { usb_keyboard_press(KEY_TAB,0); }
-	else if (c == ' ') { usb_keyboard_press(KEY_SPACE,0); }
-	else if (c == '-') { usb_keyboard_press(KEY_MINUS,0); }
-	else if (c == '_') { usb_keyboard_press(KEY_MINUS,KEY_SHIFT); }
-	else if (c == '=') { usb_keyboard_press(KEY_EQUAL,0); }
-	else if (c == '+') { usb_keyboard_press(KEY_EQUAL,KEY_SHIFT); }
-	else if (c == '[') { usb_keyboard_press(KEY_LEFT_BRACE,0); }
-	else if (c == '{') { usb_keyboard_press(KEY_LEFT_BRACE,KEY_SHIFT); }
-	else if (c == ']') { usb_keyboard_press(KEY_RIGHT_BRACE,0); }
-	else if (c == '}') { usb_keyboard_press(KEY_RIGHT_BRACE,KEY_SHIFT); }
-	else if (c == '\\')  { usb_keyboard_press(KEY_BACKSLASH,0); }
-	else if (c == '|')  { usb_keyboard_press(KEY_BACKSLASH,KEY_SHIFT); }
-	else if (c == ';') { usb_keyboard_press(KEY_SEMICOLON,0); }
-	else if (c == ':') { usb_keyboard_press(KEY_SEMICOLON,KEY_SHIFT); }
-	else if (c == '\'') { usb_keyboard_press(KEY_QUOTE,0); }
-	else if (c == '"') { usb_keyboard_press(KEY_QUOTE,KEY_SHIFT); }
-	else if (c == '`') { usb_keyboard_press(KEY_TILDE,0); }
-	else if (c == '~') { usb_keyboard_press(KEY_TILDE,KEY_SHIFT); }
-	else if (c == ',') { usb_keyboard_press(KEY_COMMA,0); }
-	else if (c == '<') { usb_keyboard_press(KEY_COMMA,KEY_SHIFT); }
-	else if (c == '.') { usb_keyboard_press(KEY_PERIOD,0); }
-	else if (c == '>') { usb_keyboard_press(KEY_PERIOD,KEY_SHIFT); }
-	else if (c == '/') { usb_keyboard_press(KEY_SLASH,0); }
-	else if (c == '?') { usb_keyboard_press(KEY_SLASH,KEY_SHIFT); }
-	else if (c == '\n') { usb_keyboard_press(KEY_ENTER,0); }
+   if (c > 'A' - 1 && c < 'Z')
+   {
+      usb_keyboard_press(c - 'A' + 4, KEY_SHIFT);
+   }
+      else if (c > 'a' - 1 && c < 'z')
+   {
+      usb_keyboard_press(c - 'a' + 4, 0);
+   }
+   else if (c > '1' - 1 && c <= '9')
+   {
+      usb_keyboard_press(c - '1' + 30, 0);
+   }
+   switch (c)
+   {
+      case '0': usb_keyboard_press(KEY_0,0);
+      case '!': usb_keyboard_press(KEY_1,KEY_SHIFT);
+      case '@': usb_keyboard_press(KEY_2,KEY_SHIFT);
+      case '#': usb_keyboard_press(KEY_3,KEY_SHIFT);
+      case '$': usb_keyboard_press(KEY_4,KEY_SHIFT);
+      case '%': usb_keyboard_press(KEY_5,KEY_SHIFT);
+      case '^': usb_keyboard_press(KEY_6,KEY_SHIFT);
+      case '&': usb_keyboard_press(KEY_7,KEY_SHIFT);
+      case '*': usb_keyboard_press(KEY_8,KEY_SHIFT);
+      case '(': usb_keyboard_press(KEY_9,KEY_SHIFT);
+      case ')': usb_keyboard_press(KEY_0,KEY_SHIFT);
+      case '	': usb_keyboard_press(KEY_TAB,0);
+      case ' ': usb_keyboard_press(KEY_SPACE,0);
+      case '-': usb_keyboard_press(KEY_MINUS,0);
+      case '_': usb_keyboard_press(KEY_MINUS,KEY_SHIFT);
+      case '=': usb_keyboard_press(KEY_EQUAL,0);
+      case '+': usb_keyboard_press(KEY_EQUAL,KEY_SHIFT);
+      case '[': usb_keyboard_press(KEY_LEFT_BRACE,0);
+      case '{': usb_keyboard_press(KEY_LEFT_BRACE,KEY_SHIFT);
+      case ']': usb_keyboard_press(KEY_RIGHT_BRACE,0);
+      case '}': usb_keyboard_press(KEY_RIGHT_BRACE,KEY_SHIFT);
+      case '\\': usb_keyboard_press(KEY_BACKSLASH,0);
+      case '|': usb_keyboard_press(KEY_BACKSLASH,KEY_SHIFT);
+      case ';': usb_keyboard_press(KEY_SEMICOLON,0);
+      case ':': usb_keyboard_press(KEY_SEMICOLON,KEY_SHIFT);
+      case '\'': usb_keyboard_press(KEY_QUOTE,0);
+      case '"': usb_keyboard_press(KEY_QUOTE,KEY_SHIFT);
+      case '`': usb_keyboard_press(KEY_TILDE,0);
+      case '~': usb_keyboard_press(KEY_TILDE,KEY_SHIFT);
+      case ',': usb_keyboard_press(KEY_COMMA,0);
+      case '<': usb_keyboard_press(KEY_COMMA,KEY_SHIFT);
+      case '.': usb_keyboard_press(KEY_PERIOD,0);
+      case '>': usb_keyboard_press(KEY_PERIOD,KEY_SHIFT);
+      case '/': usb_keyboard_press(KEY_SLASH,0);
+      case '?': usb_keyboard_press(KEY_SLASH,KEY_SHIFT);
+      case '\n': usb_keyboard_press(KEY_ENTER,0);
+   }
 }
 
 void usb_keyboard_send_string(const char *s) {
-	char c;
-	while (1) {
-		c = pgm_read_byte(s++);
-		if (!c) break;
-		usb_keyboard_send_single(c);
-	}
+   char c;
+   while (1) {
+      c = pgm_read_byte(s++);
+      if (!c) break;
+      usb_keyboard_send_single(c);
+   }
 }
